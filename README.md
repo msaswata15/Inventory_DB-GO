@@ -1,6 +1,60 @@
-# Week 5 – Inventory Service (Go + Postgres + SMTP)
+## Working (Project Progress & Details)
 
-Refactored to mirror the inventory-management design (categories, products, orders) with clean architecture, GORM, and asynchronous SMTP notifications. Endpoint names are slightly adjusted from the reference to avoid exact matches.
+### Architecture
+The project follows a clean architecture, separating concerns across multiple layers:
+- **Domain:** Defines core entities (Category, Product, Order) and interfaces for repository and usecase contracts.
+- **Repository:** Implements data access using GORM for PostgreSQL, handling CRUD operations and queries.
+- **Usecase:** Contains business logic, including inventory management, stock validation, and order processing.
+- **Service:** Provides asynchronous email notifications via SMTP, triggered on successful purchases.
+- **Delivery:** Uses Gin for HTTP routing and request handling, mapping API endpoints to usecase methods.
+- **Config:** Loads environment variables and application settings.
+- **Database:** Manages GORM connection, schema migration, and database setup.
+
+### Features Implemented
+- **Category Management:**
+  - List all categories (`GET /api/v1/collections`)
+  - Create new category (`POST /api/v1/collections`)
+- **Product Management:**
+  - List all products (`GET /api/v1/items`)
+  - Create new product (`POST /api/v1/items`)
+- **Order Management:**
+  - List all orders (`GET /api/v1/purchases`)
+  - Create new order (`POST /api/v1/purchases`)
+    - Reduces product stock atomically
+    - Sends asynchronous email notification
+- **Health Check:**
+  - `GET /api/v1/pulse` returns server status
+
+### Error Handling
+- Returns 404 for empty lists (categories, products, orders)
+- Returns 400 for insufficient stock on purchase
+- Validates input payloads for required fields
+
+### Email Notification
+- Uses Go's `net/smtp` package
+- Sends purchase confirmation emails asynchronously (goroutine)
+- SMTP credentials loaded from environment
+
+### Database
+- PostgreSQL used for persistent storage
+- GORM automigrates schema for categories, products, orders
+- SQL migrations available in `migrations/`
+
+### Environment & Configuration
+- `.env.example` provided for environment setup
+- Supports custom DB and SMTP settings
+
+### Development Progress
+- Core CRUD endpoints for categories, products, orders are functional
+- Asynchronous email notifications implemented
+- Error handling and validation in place
+- Modular, testable code structure
+- Further improvements planned: unit tests, API documentation, advanced filtering, admin endpoints
+# Inventory Service Project (Go + Postgres + SMTP)
+
+This repository is an ongoing project for an inventory management service, built with Go, PostgreSQL, and SMTP notifications. The design follows clean architecture principles and includes features for managing categories, products, and orders, with asynchronous email notifications. The API and structure are evolving as development progresses.
+
+> **Note:** This is a work-in-progress project, not a course assignment. Features and structure may change as development continues.
 
 ## Folder layout
 ```
