@@ -13,3 +13,5 @@ vendor/
 .air.toml
 tmp/
 migrations/
+go.mod
+go.sum
