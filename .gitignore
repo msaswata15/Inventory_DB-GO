@@ -10,3 +10,6 @@ bin/
 
 # Vendor
 vendor/
+.air.toml
+tmp/
+migrations/
