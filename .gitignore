@@ -1,0 +1,12 @@
+# Binaries
+bin/
+*.exe
+
+# Go build cache
+*.out
+
+# Environment files
+.env
+
+# Vendor
+vendor/
